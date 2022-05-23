@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: run structure tests
-        uses: plexsystems/container-structure-test-action@v0.1.0
+        uses: plexsystems/container-structure-test-action@v0.2.0
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository }}:main
           config: docker_test.yaml

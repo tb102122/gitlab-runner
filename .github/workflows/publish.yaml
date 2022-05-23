@@ -6,16 +6,15 @@ on:
   schedule:
     # Every day at 1am
     - cron: "0 7 * * 1"
-
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -49,7 +48,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: run structure tests
-        uses: plexsystems/container-structure-test-action@v0.2.0
+        uses: plexsystems/container-structure-test-action@v0.1.0
         with:
-          image: ghcr.io/${{ github.repository }}:latest
+          image: ${{ env.REGISTRY }}/${{ github.repository }}:latest
           config: docker_test.yaml

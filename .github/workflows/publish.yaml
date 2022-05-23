@@ -2,7 +2,10 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
+  schedule:
+    # Every day at 1am
+    - cron: "0 7 * * 1"
 
 env:
   REGISTRY: ghcr.io
@@ -39,3 +42,15 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  dockerfile-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source
+        uses: actions/checkout@master
+
+      - name: run structure tests
+        uses: plexsystems/container-structure-test-action@v0.1.0
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          config: docker_test.yaml

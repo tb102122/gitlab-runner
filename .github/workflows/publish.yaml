@@ -50,5 +50,5 @@ jobs:
       - name: run structure tests
         uses: plexsystems/container-structure-test-action@v0.1.0
         with:
-          image: ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          image: ${{ env.REGISTRY }}/${{ github.repository }}:main
           config: docker_test.yaml

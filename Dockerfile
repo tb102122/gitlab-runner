@@ -1,7 +1,7 @@
 FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 RUN apk update
 RUN apk --no-cache del gcompat
-ENV GLIBC_VER=2.34-r0
+ENV GLIBC_VER=2.35-r0
 
 # install aws cli & glibc compatibility for alpine
 RUN apk --no-cache add \

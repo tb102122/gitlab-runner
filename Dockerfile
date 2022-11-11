@@ -8,6 +8,7 @@ RUN git clone --single-branch --depth 1 -b ${AWS_CLI_VERSION} https://github.com
 
 WORKDIR aws-cli
 RUN sed -i'' 's/PyInstaller.*/PyInstaller==5.6/g' requirements-build.txt
+RUN pip install --upgrade pip, cmake
 RUN python -m venv venv
 RUN . venv/bin/activate
 RUN scripts/installers/make-exe

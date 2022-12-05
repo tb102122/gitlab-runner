@@ -51,6 +51,12 @@ jobs:
       - name: install test framework
         run: |
           brew install container-structure-test
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: run structure tests
         run: |
           IMAGE_ID=${{ env.REGISTRY }}/${{ github.repository }}:main

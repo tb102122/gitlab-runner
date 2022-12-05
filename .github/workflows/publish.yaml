@@ -60,4 +60,5 @@ jobs:
       - name: run structure tests
         run: |
           IMAGE_ID=${{ env.REGISTRY }}/${{ github.repository }}:main
-          container-structure-test test --image $IMAGE_ID --config docker_test.yaml
+          echo $IMAGE_ID
+          container-structure-test test --image $IMAGE_ID --config docker_test.yaml --pull

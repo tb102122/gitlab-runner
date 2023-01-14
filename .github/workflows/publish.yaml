@@ -64,8 +64,10 @@ jobs:
           docker pull $IMAGE_ID
       - name: run structure tests
         run: |
-          project_name=(${${{ github.repository }}//// })
-          echo $project_name
-          IMAGE_ID=${$project_name[-1]}:main
+          set -f
+          IFS=/
+          project_name_array=(${{ github.repository }})
+          for key in "${!project_name_array[@]}"; do echo "$key ${project_name_array[$key]}"; done
+          IMAGE_ID=${$project_name_array[-1]}:main
           echo $IMAGE_ID
           container-structure-test test --image $IMAGE_ID --config docker_test.yaml --pull

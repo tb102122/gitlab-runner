@@ -67,7 +67,6 @@ jobs:
           set -f
           IFS=/
           project_name_array=(${{ github.repository }})
-          for key in "${!project_name_array[@]}"; do echo "$key ${project_name_array[$key]}"; done
-          IMAGE_ID=${project_name_array[-1]}:main
-          echo $IMAGE_ID
-          container-structure-test test --image $IMAGE_ID --config docker_test.yaml --pull
+          IMAGE=(${project_name_array[-1]}:main)
+          echo $IMAGE
+          container-structure-test test --image $IMAGE --config docker_test.yaml --pull

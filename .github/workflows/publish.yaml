@@ -64,12 +64,10 @@ jobs:
           docker pull $IMAGE_ID
       - name: run structure tests
         run: |
-          IN="bla@some.com;john@home.com"
-          arrIN=(${IN//;/ })
-          echo ${arrIN[1]} 
+          unset REGISTRY
           IN=(${{ github.repository }})
+          gcr.io/registry/image:latest
           arrIN=(${IN//// })
-          echo ${arrIN[-1]} 
           IMAGE=(${arrIN[-1]}:main)
           echo $IMAGE
           container-structure-test test --image $IMAGE --config docker_test.yaml --pull

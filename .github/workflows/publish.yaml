@@ -69,4 +69,4 @@ jobs:
           arrIN=(${IN//// })
           IMAGE=(${arrIN[-1]}:main)
           echo $IMAGE
-          container-structure-test test --image $IMAGE --config docker_test.yaml --pull
+          container-structure-test test --image $IMAGE --config docker_test.yaml

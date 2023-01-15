@@ -64,9 +64,12 @@ jobs:
           docker pull $IMAGE_ID
       - name: run structure tests
         run: |
-          project_name_array=(${{ github.repository }})
-          set -f
-          IFS=/
-          IMAGE=(${project_name_array[-1]}:main)
+          IN="bla@some.com;john@home.com"
+          arrIN=(${IN//;/ })
+          echo ${arrIN[1]} 
+          IN=(${{ github.repository }})
+          arrIN=(${IN//// })
+          echo ${arrIN[-1]} 
+          IMAGE=(${arrIN[-1]}:main)
           echo $IMAGE
           container-structure-test test --image $IMAGE --config docker_test.yaml --pull

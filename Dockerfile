@@ -22,8 +22,9 @@ RUN rm -rf /usr/local/aws-cli/v2/current/dist/aws_completer /usr/local/aws-cli/v
 
 # build the final image
 FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest
-COPY --from=builder /usr/local/aws-cli/ /usr/local/aws-cli/ \
-    && --from=builder /aws-cli-bin/ /usr/local/bin/
+COPY --from=builder /usr/local/aws-cli/ /usr/local/aws-cli/ 
+COPY --from=builder /aws-cli-bin/ /usr/local/bin/
 RUN apk --no-cache add docker openrc sqlite-libs libffi \ 
     && apk --no-cache del binutils curl
-RUN rm -rf /var/cache/apk/* && rc-update add docker boot
+RUN rm -rf /var/cache/apk/* \
+    && rc-update add docker boot

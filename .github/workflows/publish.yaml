@@ -10,7 +10,34 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 jobs:
+  dockerfile-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v3
+      - name: Add Homebrew to $PATH
+        run: echo "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+      - name: install test framework
+        run: |
+          brew install container-structure-test
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: docker pull
+        run: |
+          IMAGE_ID=${{ env.REGISTRY }}/${{ github.repository }}:main
+          echo $IMAGE_ID
+          docker pull $IMAGE_ID
+      - name: run structure tests
+        run: |
+          IMAGE=${{ env.REGISTRY }}/${{ github.repository }}:main
+          echo $IMAGE
+          container-structure-test test --image $IMAGE --config docker_test.yaml
   build-and-push-image:
+    needs: dockerfile-test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,31 +66,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-  dockerfile-test:
-    needs: build-and-push-image
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout source
-        uses: actions/checkout@v3
-      - name: Add Homebrew to $PATH
-        run: echo "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
-      - name: install test framework
-        run: |
-          brew install container-structure-test
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: docker pull
-        run: |
-          IMAGE_ID=${{ env.REGISTRY }}/${{ github.repository }}:main
-          echo $IMAGE_ID
-          docker pull $IMAGE_ID
-      - name: run structure tests
-        run: |
-          IMAGE=${{ env.REGISTRY }}/${{ github.repository }}:main
-          echo $IMAGE
-          container-structure-test test --image $IMAGE --config docker_test.yaml

@@ -18,9 +18,9 @@ RUN apk add --no-cache \
     && make \
     && make install
 
-# reduce image size: remove autocomplete and examples
-RUN rm -rf /opt/aws-cli/v2/current/dist/aws_completer /opt/aws-cli/v2/current/dist/awscli/data/ac.index /opt/aws-cli/v2/current/dist/awscli/examples \
-    && find /opt/aws-cli/v2/current/dist/awscli/botocore/data -name examples-1.json -delete
+# # reduce image size: remove autocomplete and examples
+# RUN rm -rf /opt/aws-cli/v2/current/dist/aws_completer /opt/aws-cli/v2/current/dist/awscli/data/ac.index /opt/aws-cli/v2/current/dist/awscli/examples \
+#     && find /opt/aws-cli/v2/current/dist/awscli/botocore/data -name examples-1.json -delete
 
 # build the final image
 FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest

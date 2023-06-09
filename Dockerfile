@@ -12,8 +12,8 @@ RUN apk add --no-cache \
     libc-dev \
     libffi-dev \
     openssl-dev \
-    && curl https://awscli.amazonaws.com/awscli-{AWSCLI_VERSION}.tar.gz | tar -xz \
-    && cd awscli-{AWSCLI_VERSION} \
+    && curl https://awscli.amazonaws.com/awscli-${AWSCLI_VERSION}.tar.gz | tar -xz \
+    && cd awscli-${AWSCLI_VERSION} \
     && ./configure --prefix=/opt/aws-cli/ --with-download-deps \
     && make \
     && make install

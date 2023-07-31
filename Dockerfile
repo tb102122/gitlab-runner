@@ -1,7 +1,7 @@
 FROM python:3.11-alpine AS builder
 
 # build AWS CLI
-ARG AWSCLI_VERSION=2.11.27
+ARG AWSCLI_VERSION=2.13.4
 RUN apk add --no-cache \
     curl \
     make \

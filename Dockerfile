@@ -2,7 +2,8 @@ FROM python:3.11-alpine AS builder
 
 # build AWS CLI
 ARG AWSCLI_VERSION=2.15.36
-RUN apk add --no-cache \
+RUN pip install --upgrade pip
+RUN apk update && apk add --no-cache \
     curl \
     make \
     cmake \
@@ -30,7 +31,8 @@ FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 COPY --from=builder /opt/aws-cli/ /opt/aws-cli/
 COPY --from=builder --chown=0:0 /usr/local/lib/ /usr/local/lib/
 ENV PATH="/opt/aws-cli/bin:${PATH}"
-RUN apk --no-cache add docker openrc sqlite-libs libffi \
+RUN apk update && apk --no-cache add groff docker openrc sqlite-libs libffi \
     && apk --no-cache del binutils curl \
-    && rm -rf /var/cache/apk/* \
-    && rc-update add docker boot
+    && apk upgrade libexpat \
+    && rc-update add docker boot \
+    && apk clean cache

@@ -1,7 +1,7 @@
 FROM python:3.12-alpine AS builder
 
 # build AWS CLI
-ARG AWSCLI_VERSION=2.15.49
+ARG AWSCLI_VERSION=2.15.39
 RUN python -m pip install --upgrade pip
 RUN apk update && apk add --no-cache \
     curl \

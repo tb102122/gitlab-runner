@@ -1,7 +1,7 @@
-FROM python:3.11.9-alpine3.19 AS builder
+FROM python:3.11.10-alpine3.19 AS builder
 # pin version due to https://github.com/aws/aws-cli/issues/8698
 # build AWS CLI
-ARG AWSCLI_VERSION=2.15.59
+ARG AWSCLI_VERSION=2.22.8
 RUN python -m pip install --upgrade pip
 RUN apk update && apk add --no-cache \
     curl \
@@ -27,7 +27,7 @@ RUN find /opt/aws-cli/lib/aws-cli -name completions-1*.json -delete
 RUN find /opt/aws-cli/lib/aws-cli -name examples-1.json -delete
 
 # build layer with Docker and Terraform
-FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+FROM registry.gitlab.com/noemix/shared-resources/terraform-images/stable:latest
 COPY --from=builder /opt/aws-cli/ /opt/aws-cli/
 COPY --from=builder --chown=0:0 /usr/local/lib/ /usr/local/lib/
 ENV PATH="/opt/aws-cli/bin:${PATH}"

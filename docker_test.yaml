@@ -14,6 +14,13 @@ commandTests:
       - |
         aws --version
     expectedOutput: ["aws-cli/.*"]
+  - name: "KUBE CTL"
+    command: "sh"
+    args:
+      - -c
+      - |
+        kubectl version --client
+    expectedOutput: ["Client Version: v.*"]
   - name: "Docker"
     command: "sh"
     args:

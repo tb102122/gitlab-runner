@@ -1,7 +1,7 @@
-FROM python:3.11.11-alpine3.19 AS builder
+FROM python:3.14.6-alpine3.24 AS builder
 # pin version due to https://github.com/aws/aws-cli/issues/8698
 # build AWS CLI
-ARG AWSCLI_VERSION=2.27.22
+ARG AWSCLI_VERSION=2.36.4
 
 RUN python -m pip install --upgrade pip
 RUN apk update && apk add --no-cache \
@@ -33,7 +33,7 @@ COPY --from=builder /opt/aws-cli/ /opt/aws-cli/
 COPY --from=builder --chown=0:0 /usr/local/lib/ /usr/local/lib/
 ENV PATH="/opt/aws-cli/bin:${PATH}"
 RUN apk update && apk --no-cache add curl bash groff docker openrc sqlite-libs libffi \
-    && KUBECTL_VERSION="v1.33.1" \
+    && KUBECTL_VERSION="v1.36.2" \
     && curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" \
     && curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256" \
     && echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c - \

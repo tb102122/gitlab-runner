@@ -1,4 +1,4 @@
-FROM python:3.14.6-alpine3.24 AS builder
+FROM python:3.15.0rc1-alpine3.24 AS builder
 # pin version due to https://github.com/aws/aws-cli/issues/8698
 # build AWS CLI
 ARG AWSCLI_VERSION=2.36.4
